@@ -1,0 +1,37 @@
+{
+  "format": "chameleon-ultra-gui-marketplace",
+  "version": 1,
+  "name": "ChameleonUltraGUI plugins",
+  "plugins": [
+    {
+      "id": "choose-language",
+      "path": "plugins/choose-language.plugin.json",
+      "version": "6dbf8f54",
+      "author": "GameTec_live"
+    },
+    {
+      "id": "create-dictionary",
+      "path": "plugins/create-dictionary.plugin.json",
+      "version": "6093b07a",
+      "author": "GameTec_live"
+    },
+    {
+      "id": "offline-nested",
+      "path": "plugins/offline-nested.plugin.json",
+      "version": "93e757e4",
+      "author": "GameTec_live"
+    },
+    {
+      "id": "saved-card-count",
+      "path": "plugins/saved-card-count.plugin.json",
+      "version": "81e22c66",
+      "author": "GameTec_live"
+    },
+    {
+      "id": "toggle-theme",
+      "path": "plugins/toggle-theme.plugin.json",
+      "version": "b9cd26d4",
+      "author": "GameTec_live"
+    }
+  ]
+}
