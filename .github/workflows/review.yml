@@ -1,0 +1,42 @@
+# Reviews every plugin pull request: labels it, explains the result in one
+# comment, and merges safe updates from plugin owners automatically.
+# The policy lives in .github/scripts/review.ts.
+#
+# SECURITY: pull_request_target gives this job a write token even for PRs from
+# forks. It therefore only runs code from the base branch; the PR's files are
+# read with git as data and never executed. Don't add steps that run, install
+# or build anything from the PR.
+name: Plugin review
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited, ready_for_review]
+
+permissions:
+  contents: write # merge
+  pull-requests: write # merge, comment
+  issues: write # labels
+  actions: write # start the Marketplace workflow after merging
+
+concurrency:
+  group: plugin-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Fetch the PR head (as data)
+        run: git fetch --no-tags origin "$HEAD_SHA"
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      - run: node .github/scripts/main.ts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
